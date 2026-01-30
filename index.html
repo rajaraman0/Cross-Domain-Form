@@ -56,7 +56,9 @@
                 };
                 
                 
-                window.parent.postMessage(formData, '*');
+                // Child: Dynamic parent origin
+window.parent.postMessage(formData, window.location !== window.parent.location ? window.parent.location.origin : '*');
+
                 
                 alert('✅ Submitted to parent! Check Console/GTM.');
                 this.reset();
