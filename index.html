@@ -1,11 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Cross-Domain Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial; max-width: 500px; margin: 2rem auto; padding: 2rem; }
-        input, select, textarea, button { width: 100%; padding: 0.75rem; margin: 0.5rem 0; box-sizing: border-box; }
-        button { background: #007cba; color: white; border: none; cursor: pointer; }
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 500px; 
+            margin: 2rem auto; 
+            padding: 2rem; 
+            background: #f9f9f9;
+        }
+        form { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        label { display: block; margin: 1rem 0 0.5rem; font-weight: bold; }
+        input, select, textarea, button { 
+            width: 100%; 
+            padding: 0.75rem; 
+            margin: 0.5rem 0; 
+            box-sizing: border-box; 
+            border: 1px solid #ddd; 
+            border-radius: 4px;
+        }
+        button { 
+            background: #007cba; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: bold;
+        }
         button:hover { background: #005a87; }
     </style>
 </head>
@@ -13,55 +36,57 @@
     <h2>Cross-Domain Practice Form</h2>
     
     <form id="practice-form">
+        <label for="name">Name:</label>
         <input type="text" 
                id="name" 
                name="name" 
-               placeholder="Name" 
+               placeholder="Enter your name" 
                autocomplete="name" 
                required>
         
+        <label for="rating">Rating:</label>
         <select id="rating" 
                 name="rating" 
                 autocomplete="rating" 
                 required>
-            <option value="">Rating</option>
-            <option value="5">5 Stars</option>
-            <option value="4">4 Stars</option>
-            <option value="3">3 Stars</option>
-            <option value="2">2 Stars</option>
-            <option value="1">1 Star</option>
+            <option value="">Select rating</option>
+            <option value="5">5 Stars ★★★★★</option>
+            <option value="4">4 Stars ★★★★☆</option>
+            <option value="3">3 Stars ★★★☆☆</option>
+            <option value="2">2 Stars ★★☆☆☆</option>
+            <option value="1">1 Star ★☆☆☆☆</option>
         </select>
         
+        <label for="comments">Comments:</label>
         <textarea id="comments" 
                   name="comments" 
-                  placeholder="Comments" 
+                  placeholder="Tell us your experience..." 
                   autocomplete="off" 
                   rows="4"></textarea>
         
-        <button type="submit">Submit (Cross-Domain!)</button>
+        <button type="submit">Submit (Cross-Domain Tracking!)</button>
     </form>
 
-    <!-- ✅ Script AFTER form - DOM ready -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('practice-form').addEventListener('submit', function(e) {
+            const form = document.getElementById('practice-form');
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
                 const formData = {
                     event: 'form_submit',
                     form_name: 'cross_domain_feedback',
-                    name: document.getElementById('name').value || 'N/A',
+                    name: document.getElementById('name').value || 'Anonymous',
                     rating: document.getElementById('rating').value || 'N/A',
-                    comments: document.getElementById('comments').value || 'N/A'
+                    comments: document.getElementById('comments').value || 'No comments'
                 };
                 
+                // ✅ Simple & secure for practice
+                window.parent.postMessage(formData, '*');
                 
-                // Child: Dynamic parent origin
-window.parent.postMessage(formData, window.location !== window.parent.location ? window.parent.location.origin : '*');
-
-                
-                alert('✅ Submitted to parent! Check Console/GTM.');
-                this.reset();
+                // Visual feedback
+                alert('✅ Submitted to parent domain!\nCheck GTM Preview & Console.');
+                form.reset();
             });
         });
     </script>
