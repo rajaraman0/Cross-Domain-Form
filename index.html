@@ -81,8 +81,8 @@
                     comments: document.getElementById('comments').value || 'No comments'
                 };
                 
-                // ✅ Simple & secure for practice
-                window.parent.postMessage(formData, '*');
+             const PARENT_ORIGIN = 'https://rajaraman0.github.io'; // or your actual domain
+window.parent.postMessage(formData, PARENT_ORIGIN);
                 
                 // Visual feedback
                 alert('✅ Submitted to parent domain!\nCheck GTM Preview & Console.');
