@@ -53,7 +53,9 @@
             };
             
             // Broadcast to parent window
-            window.parent.postMessage(formData, '*'); // Use '*' for practice
+const parentOrigin = 'https://your-ecommerce.github.io';  // Your main site
+window.parent.postMessage(formData, parentOrigin);
+
             
             alert('Submitted to parent domain! Check GTM.');
             this.reset();
